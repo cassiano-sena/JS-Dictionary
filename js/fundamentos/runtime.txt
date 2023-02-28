@@ -1,0 +1,55 @@
+lembrar em qual ambiente está
+browser vs node
+
+existem algumas diferenças
+é importante lembrar delas
+
+por exemplo, no browser, ao criar uma variável (especialmente uma variável global), você corre o risco de sobrescrever alguma variável de outro contexto, arriscando modificar a lógica.
+Basicamente:
+FUJA DO ESCOPO GLOBAL!
+
+{
+    (window === this)
+
+    window
+
+    var a = "Texto" // undefined
+
+    window.a // "Texto"
+
+    var a = 123 // undefined
+
+    window.a // 123
+
+    let b = 123 // undefined
+
+    window.b // undefined (ela (let) não é de escopo global)
+
+    let b = 123 // Uncaught SyntaxError: Identifier 'b' has already been declared
+
+    this.b // undefined
+
+    b // 123
+
+    const c = 456 // undefined
+
+    window.c // undefined
+
+    function f1() { return this === window } // undefined ( ao criar uma funcao, ela será anexada ao ambiente (window) e nao será de outro local)
+
+    f1() // true
+
+    window.f1() // true
+
+    this.f1() // true
+
+    const f2 = () => console.log(this === window) // undefined
+
+    f2() // true // undefined
+
+    this.f2() // Uncaught TypeError: this.f2 is not a function
+
+    window.f2() // Uncaught TypeError: this.f2 is not a function
+
+    f2() // true
+}
